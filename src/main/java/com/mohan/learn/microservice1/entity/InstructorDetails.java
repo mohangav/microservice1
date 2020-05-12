@@ -1,6 +1,7 @@
 package com.mohan.learn.microservice1.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "instructor_detail")
 public class InstructorDetails {
@@ -14,6 +15,11 @@ public class InstructorDetails {
 
     @Column(name = "hobby")
     private String hobby;
+
+    @OneToOne(mappedBy = "instructorDetails",
+    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+    fetch = FetchType.EAGER)
+    private Instructor instructor;
 
     protected InstructorDetails() {}
 
@@ -44,5 +50,13 @@ public class InstructorDetails {
 
     public void setHobby(String hobby) {
         this.hobby = hobby;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 }
