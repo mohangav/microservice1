@@ -1,6 +1,7 @@
 package com.mohan.learn.microservice1.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity (name = "student")
 public class Student {
@@ -14,6 +15,11 @@ public class Student {
     private String lastName;
     @Column(name="email")
     private String email;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(name = "course_student", joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> courses;
 
     protected Student() {
 
@@ -55,6 +61,14 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     @Override
